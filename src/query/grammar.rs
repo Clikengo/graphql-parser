@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 use combine::{parser, ParseResult, Parser};
 use combine::combinator::{many1, eof, optional, position};
 
@@ -9,7 +11,7 @@ use query::error::{ParseError};
 use query::ast::*;
 
 pub fn field<'a>(input: &mut TokenStream<'a>)
-    -> ParseResult<Field, TokenStream<'a>>
+    -> ParseResult<Rc<Field>, TokenStream<'a>>
 {
     (
         position(),
@@ -23,7 +25,7 @@ pub fn field<'a>(input: &mut TokenStream<'a>)
             Some(name) => (name, Some(name_or_alias)),
             None => (name_or_alias, None),
         };
-        Field {
+        Rc::new(Field {
             position, name, alias, arguments, directives,
             selection_set: sel.unwrap_or_else(|| {
                 SelectionSet {
@@ -31,7 +33,7 @@ pub fn field<'a>(input: &mut TokenStream<'a>)
                     items: Vec::new(),
                 }
             }),
-        }
+        })
     })
     .parse_stream(input)
 }
@@ -212,7 +214,7 @@ mod test {
                         span: (Pos { line: 1, column: 1 },
                                Pos { line: 1, column: 5 }),
                         items: vec![
-                            Selection::Field(Field {
+                            Selection::Field(Rc::new(Field {
                                 position: Pos { line: 1, column: 3 },
                                 alias: None,
                                 name: "a".into(),
@@ -223,7 +225,7 @@ mod test {
                                            Pos { line: 1, column: 3 }),
                                     items: Vec::new()
                                 },
-                            }),
+                            })),
                         ],
                     }
                 ))
@@ -241,7 +243,7 @@ mod test {
                             span: (Pos { line: 1, column: 1 },
                                    Pos { line: 1, column: 33 }),
                             items: vec![
-                                Selection::Field(Field {
+                                Selection::Field(Rc::new(Field {
                                     position: Pos { line: 1, column: 3 },
                                     alias: None,
                                     name: "a".into(),
@@ -259,7 +261,7 @@ mod test {
                                                Pos { line: 1, column: 3 }),
                                         items: Vec::new()
                                     },
-                                }),
+                                })),
                             ],
                         }
                     ))

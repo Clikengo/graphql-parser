@@ -5,6 +5,8 @@
 //!
 //! [graphql grammar]: http://facebook.github.io/graphql/October2016/#sec-Appendix-Grammar-Summary
 //!
+use std::rc::Rc;
+
 use position::Pos;
 pub use common::{Directive, Number, Value, Name, Type};
 
@@ -80,7 +82,7 @@ pub struct VariableDefinition {
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Selection {
-    Field(Field),
+    Field(Rc<Field>),
     FragmentSpread(FragmentSpread),
     InlineFragment(InlineFragment),
 }
