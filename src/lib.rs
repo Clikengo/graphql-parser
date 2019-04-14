@@ -96,9 +96,10 @@
 extern crate combine;
 #[macro_use] extern crate failure;
 #[cfg(test)] #[macro_use] extern crate pretty_assertions;
-
+extern crate serde;
 
 mod common;
+mod de;
 #[macro_use]
 mod format;
 mod position;

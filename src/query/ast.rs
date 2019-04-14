@@ -8,7 +8,7 @@
 use std::rc::Rc;
 
 use position::Pos;
-pub use common::{Directive, Number, Value, Name, Type};
+pub use common::{Directive, Value, Name, Type};
 
 /// Root of query data
 #[derive(Debug, Clone, PartialEq)]
