@@ -1,9 +1,6 @@
 use common::Value;
 use serde;
-use serde::de::{
-    Deserialize, DeserializeSeed, EnumAccess, Expected, IntoDeserializer, MapAccess, SeqAccess,
-    Unexpected, VariantAccess, Visitor,
-};
+use serde::de::{Deserialize, MapAccess, SeqAccess, Visitor};
 use std::collections::BTreeMap;
 use std::fmt;
 
